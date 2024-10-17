@@ -1,0 +1,164 @@
+# Student class
+class Student:
+    def _init_(self, name, roll_number):
+        self.name = name
+        self.roll_number = roll_number
+        self.grades = {}
+
+    def add_grade(self, subject, grade):
+        if 0 <= grade <= 100:
+            self.grades[subject] = grade
+        else:
+            print("Invalid grade. It must be between 0 and 100.")
+
+    def calculate_average(self):
+        if len(self.grades) > 0:
+            return sum(self.grades.values()) / len(self.grades)
+        return 0
+
+    def view_details(self):
+        print(f"Name: {self.name}")
+        print(f"Roll Number: {self.roll_number}")
+        if self.grades:
+            print("Grades:")
+            for subject, grade in self.grades.items():
+                print(f"{subject}: {grade}")
+            print(f"Average Grade: {self.calculate_average()}")
+        else:
+            print("No grades available.")
+
+
+# StudentTracker class
+class StudentTracker:
+    def _init_(self):
+        self.students = {}
+
+    def add_student(self, name, roll_number):
+        if roll_number in self.students:
+            print("Student with this roll number aleady exists.")
+        else:
+            student = Student(name, roll_number)
+            self.students[roll_number] = student
+            print(f"Student {name} added successfully.")
+
+    def add_grade(self, roll_number, subject, grade):
+        student = self.students.get(roll_number)
+        if student:
+            student.add_grade(subject, grade)
+            print(f"Grade added for {student.name} in {subject}.")
+        else:
+            print("Student not found.")
+
+    def view_student_details(self, roll_number):
+        student = self.students.get(roll_number)
+        if student:
+            student.view_details()
+        else:
+            print("Student not found.")
+
+    def calculate_class_average(self):
+        total_average = 0
+        if len(self.students) > 0:
+            for student in self.students.values():
+                total_average += student.calculate_average()
+            return total_average / len(self.students)
+        return 0
+
+
+# Menu-driven interface
+def menu():
+    tracker = StudentTracker()
+    
+    while True:
+        print("\n--- Student Performance Tracker ---")
+        print("1. Add Student")
+        print("2. Add Grade")
+        print("3. View Student Details")
+ print("4. Calculate Class Average")
+        print("5. Exit")
+        
+        choice = input("Enter your choice: ")
+        
+        if choice == '1':
+            name = input("Enter student's name: ")
+            roll_number = input("Enter student's roll number: ")
+            tracker.add_student(name, roll_number)
+        
+        elif choice == '2':
+            roll_number = input("Enter student's roll number: ")
+            subject = input("Enter subject: ")
+            grade = float(input("Enter grade (0-100): "))
+            tracker.add_grade(roll_number, subject, grade)
+        
+        elif choice == '3':
+            roll_number = input("Enter student's roll number: ")
+            tracker.view_student_details(roll_number)
+        
+        elif choice == '4':
+            class_average = tracker.calculate_class_average()
+            print(f"Class Average: {class_average}")
+        
+        elif choice == '5':
+            print("Exiting the application.")
+            break
+        
+        else:
+            print("Invalid choice. Please try again.")
+
+# Start the application
+if _name_ == "_main_":
+    menu()
+   --- Student Performance Tracker ---
+1. Add Student
+2. Add Grade
+3. View Student Details
+4. Calculate Class Average
+5. Exit
+Enter your choice: 1
+Enter student's name: John Doe
+Enter student's roll number: 101
+Student John Doe added successfully.
+
+--- Student Performance Tracker ---
+1. Add Student
+2. Add Grade
+3. View Student Details
+4. Calculate Class Average
+5. Exit
+Enter your choice: 2
+Enter student's roll number: 101
+Enter subject: Math
+Enter grade (0-100): 85
+Grade added for John Doe in Math.
+
+--- Student Performance Tracker ---
+1. Add Student
+2. Add Grade
+3. View Student Details
+4. Calculate Class Average
+4. Calculate Class Average
+5. Exit
+Enter your choice: 3
+Enter student's roll number: 101
+Name: John Doe
+Roll Number: 101
+Grades:
+Math: 85
+Average Grade: 85.0
+
+--- Student Performance Tracker ---
+1. Add Student
+2. Add Grade
+3. View Student Details
+4. Calculate Class Average
+5. Exit
+Enter your choice: 4
+Class Average: 85.0
+
+--- Student Performance Tracker ---
+1. Add Student
+2. Add Grade
+3. View Student Details
+4. Calculate Class Average
+5.exit
+exiting the program
